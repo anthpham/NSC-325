@@ -19,17 +19,17 @@ for key, value in nmap_out['scan'].items():
 
 #NOTES: Let's change the overall table to key (mac address) : list (ip, product, ostype)
 
-#prod_dict = {}
-#os_dict = {}
-#mac_dict = {}
 device_dict = {}
 for ip in ip_addies:
-    device_dict['ip'] = ip
     results = nmap.nmap_version_detection(ip)
     try:
-        prod = results[ip]['ports'][1]['service']['product']
-        device_dict['{ip}'.format(ip=ip)] = prod
-        os = results[ip]['ports'][1]['service']['ostype']
-        os_dict[]
+        mac = results[ip]['macaddress']
+        stats = []
+        stats.append(results[ip]['ports'][1]['service']['name'])
+        stats.append(results[ip]['ports'][1]['service']['product'])
+        stats.append(results[ip]['ports'][1]['service']['ostype'])
+        stats.append(results[ip]['ports'][1]['cpe'][0]['cpe'])
+        device_dict[mac] = stats
+        print(device_dict)
     except:
         pass
