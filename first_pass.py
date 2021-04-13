@@ -1,5 +1,7 @@
 import nmap
 import nmap3
+import pandas as pd
+import json
 
 
 
@@ -35,27 +37,32 @@ for ip in ip_addies:
     except IndexError as e:
         #if # what attributes does this error have and can we operate based on this knowledge?
         #stats.append(results[ip]['ports'][1]['service']['name'])
-        pass
+        stats.append('')
     try:
         stats.append(results[ip]['ports'][0]['service']['product'])
     except:
         #stats.append(results[ip]['ports'][1]['service']['product'])
-        pass
+        stats.append('')
     try:
         stats.append(results[ip]['ports'][1]['service']['ostype'])
     except:
-        stats.append('os not described')
+        stats.append('')
     try:
         stats.append(results[ip]['ports'][1]['cpe'][0]['cpe'])
     except:
         #stats.append(results[ip]['ports'][2]['cpe'][0]['cpe'])
-        pass
+        stats.append('')
     try:
         stats.append(results[ip]['macaddress']['vendor'])
     except:
-        pass
+        stats.append('')
     try:
         device_dict[mac['addr']] = stats
     except:
         device_dict['no mac, ip is {}'.format(ip)] = stats
 print(device_dict)
+
+
+newstr = str(device_dict)
+newstr = newstr.replace('\'','\"')
+print(newstr)
