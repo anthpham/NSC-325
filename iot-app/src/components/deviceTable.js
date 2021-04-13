@@ -7,6 +7,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
+import * as deviceNames from "../../data/device-names.json";
+import * as deviceList from "../../data/device-list.json";
 
 const useStyles = makeStyles({
   table: {
@@ -28,28 +31,35 @@ const rows = [
 
 export default function DeviceTable() {
   const classes = useStyles();
+  console.log("here0");
+  console.log(deviceList);
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Product</TableCell>
-            <TableCell align="right">OS Type&nbsp;</TableCell>
-            <TableCell align="right">CPE&nbsp;</TableCell>
-            <TableCell align="right">Vendor&nbsp;</TableCell>
+            <TableCell align="left">Product</TableCell>
+            <TableCell align="left">OS Type&nbsp;</TableCell>
+            <TableCell align="left">CPE&nbsp;</TableCell>
+            <TableCell align="left">Vendor&nbsp;</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                <TextField
+                  style={{ width: "300px" }}
+                  id="outlined-required"
+                  defaultValue={row.name}
+                />
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="left">{row.calories}</TableCell>
+              <TableCell align="left">{row.fat}</TableCell>
+              <TableCell align="left">{row.carbs}</TableCell>
+              <TableCell align="left">{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>
