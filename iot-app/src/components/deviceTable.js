@@ -67,56 +67,62 @@ const rows = [
 
 export default function DeviceTable() {
   const classes = useStyles();
-  console.log("here2");
-  console.log(deviceList);
+  // console.log("here2");
+  // console.log(deviceList);
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="left">Status</TableCell>
-            <TableCell align="left">Product</TableCell>
-            <TableCell align="left">OS Type&nbsp;</TableCell>
-            <TableCell align="left">IP&nbsp;</TableCell>
-            <TableCell align="left">Vendor&nbsp;</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                <TextField
-                  style={{ width: "300px" }}
-                  id="outlined-required"
-                  defaultValue={row.name}
-                />
-              </TableCell>
-              <TableCell align="left">
-                <img src={check} style={{ width: "30px" }} />
-              </TableCell>
-              <TableCell align="left">{row.calories}</TableCell>
-              <TableCell align="left">{row.fat}</TableCell>
-              <TableCell align="left">{row.carbs}</TableCell>
-              <TableCell align="left">{row.protein}</TableCell>
-              <TableCell align="left">
-                {
-                  <span
-                    style={{
-                      color: "blue",
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                    }}
-                  >
-                    View Traffic
-                  </span>
-                }
-              </TableCell>
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <Table
+          className={classes.table}
+          size="small"
+          aria-label="a dense table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left">Product</TableCell>
+              <TableCell align="left">OS Type&nbsp;</TableCell>
+              <TableCell align="left">IP&nbsp;</TableCell>
+              <TableCell align="left">Vendor&nbsp;</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.name}>
+                <TableCell component="th" scope="row">
+                  <TextField
+                    style={{ width: "300px" }}
+                    id="outlined-required"
+                    defaultValue={row.name}
+                  />
+                </TableCell>
+                <TableCell align="left">
+                  <img src={check} style={{ width: "30px" }} />
+                </TableCell>
+                <TableCell align="left">{row.calories}</TableCell>
+                <TableCell align="left">{row.fat}</TableCell>
+                <TableCell align="left">{row.carbs}</TableCell>
+                <TableCell align="left">{row.protein}</TableCell>
+                <TableCell align="left">
+                  {
+                    <span
+                      style={{
+                        color: "blue",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                      }}
+                    >
+                      View Traffic
+                    </span>
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </React.Fragment>
   );
 }
