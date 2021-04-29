@@ -62,7 +62,7 @@ for ip in ip_addies:
         device_dict['no mac, ip is {}'.format(ip)] = stats
 print(device_dict)
 
-
-newstr = str(device_dict)
-newstr = newstr.replace('\'','\"')
-print(newstr)
+json = json.dumps(device_dict)
+f = open("outDict.json","w")
+f.write(json)
+f.close()
