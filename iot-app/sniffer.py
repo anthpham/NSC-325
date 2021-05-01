@@ -1,36 +1,40 @@
 import nmap
 import nmap3
-import pandas as pd
 import json
 
-
+print("Loading 10%")
 
 nm = nmap.PortScanner()
 nmap = nmap3.Nmap()
+
+print("Loading 20%")
 
 # Find all active ip addresses
 ip_dict = {}
 ip_addies = []
 
 nmap_out = nm.scan('192.168.0.*')
+print("Loading 30%")
 for key, value in nmap_out['scan'].items():
     if key.startswith('192.168.0.'):
-        print(key)
-        print(value)
+        # print(key)
+        # print(value)
         ip_dict['ip'] = value
         ip_addies.append(key)
 
-print(ip_addies)
+print("Loading 50%")
+
+# print(ip_addies)
 #NOTES: Let's change the overall table to key (mac address) : list (ip, product, ostype)
 
 device_dict = {}
 for ip in ip_addies:
     results = nmap.nmap_version_detection(ip)
-    print("results are /n")
-    print(results)
+    # print("results are /n")
+    # print(results)
     mac = results[ip]['macaddress']
-    print("mac address is /n")
-    print(mac)
+    # print("mac address is /n")
+    # print(mac)
     stats = []
     try:
         stats.append(results[ip]['ports'][0]['service']['name'])
@@ -60,9 +64,11 @@ for ip in ip_addies:
         device_dict[mac['addr']] = stats
     except:
         device_dict['no mac, ip is {}'.format(ip)] = stats
-print(device_dict)
+# print(device_dict)
+print("Loading 90%")
 
 json = json.dumps(device_dict)
-f = open("outDict.json","w")
+f = open("devices.json","w")
 f.write(json)
+print("Loading 100%")
 f.close()
