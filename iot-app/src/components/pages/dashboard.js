@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import DeviceTable from "../deviceTable";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Modal from "@material-ui/core/Modal";
+import Traffic from "./traffic";
 
 class DashBoard extends Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class DashBoard extends Component {
     this.state = {
       isLoaded: false,
       data: "",
+      trafficOpen: false,
     };
   }
   handleRefresh = () => {
@@ -37,15 +40,35 @@ class DashBoard extends Component {
       );
   };
 
+  handleOpen = () => {
+    this.setState({ trafficOpen: true });
+  };
+
+  handleClose = () => {
+    this.setState({ trafficOpen: false });
+  };
+
   render() {
     return (
       <React.Fragment>
+        <Modal
+          open={this.state.trafficOpen}
+          onClose={this.handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <Traffic
+            name={"Roku"}
+            mac={"8f:43:44:1a:bc:09"}
+            ip={"192.168.0.103"}
+          />
+        </Modal>
         <DeviceTable />
         <ButtonGroup>
           <Button
             color="secondary"
             style={{ marginTop: 10 }}
-            onClick={this.handleRefresh}
+            onClick={this.handleOpen}
           >
             Refresh
           </Button>
