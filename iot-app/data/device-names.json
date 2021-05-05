@@ -1,4 +1,9 @@
 {
-  "testKey": "testvalue",
-  "testkey2": "testValue2"
+  "00:17:88:24:8E:2A": "Phillips Hue",
+  "DC:A6:32:83:EB:46": "Raspberry Pi",
+  "DC:A6:32:83:EB:47": "Raspberry Pi Openhab",
+  "FC:49:2D:69:4F:71": "Amazon Alexa",
+  "24:F5:A2:52:E0:2D": "Wemo",
+  "E2:CF:FD:9D:19:F5": "Macbook Pro",
+  "1C:AF:F7:DD:BA:B3": "D-Link International"
 }
