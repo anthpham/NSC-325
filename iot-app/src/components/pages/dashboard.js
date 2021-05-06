@@ -5,40 +5,76 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Modal from "@material-ui/core/Modal";
 import Traffic from "./traffic";
 
+const NAMES_PATH = "http://localhost:5000/names";
+const DEVICES_PATH = "http://localhost:5000/devices";
+
 class DashBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
-      data: "",
+      names: [],
+      devices: [],
       trafficOpen: false,
     };
   }
-  handleRefresh = () => {
-    fetch("http://localhost:5000/", {
+
+  componentDidMount() {
+    if (!this.state.isLoaded) {
+      this.getNames();
+      this.getDevices();
+    } 
+  }
+
+  getNames = () => {
+    fetch(NAMES_PATH, {
       method: "GET",
       headers: {
-        Accept: "*/*",
+        'Accept': "*/*"
       },
     })
-      .then((res) => res.text())
-      // .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            data: result.replaceAll("'", '"'),
-            // data: result.items,
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
-  };
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          names: result,
+        });
+      },
+      (error) => {
+        console.log("ERROR getting data");
+        console.log(error);
+        this.setState({
+          isLoaded: true,
+        });
+      }
+    );
+  }
+
+  getDevices = () => {
+    fetch(DEVICES_PATH, {
+      method: "GET",
+      headers: {
+        'Accept': "*/*"
+      },
+    })
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          devices: result,
+        });
+      },
+      (error) => {
+        console.log("ERROR getting data");
+        console.log(error);
+        this.setState({
+          isLoaded: true,
+        });
+      }
+    );
+  }
 
   handleOpen = () => {
     this.setState({ trafficOpen: true });
@@ -63,7 +99,7 @@ class DashBoard extends Component {
             ip={"192.168.0.103"}
           />
         </Modal>
-        <DeviceTable />
+        <DeviceTable names={this.state.names} devices={this.state.devices}/>
         <ButtonGroup>
           <Button
             color="secondary"
@@ -73,12 +109,6 @@ class DashBoard extends Component {
             Refresh
           </Button>
         </ButtonGroup>
-
-        {this.state.isLoaded && (
-          <div align="left" style={{ marginLeft: "250px" }}>
-            <pre>{JSON.stringify(JSON.parse(this.state.data), null, 1)}</pre>
-          </div>
-        )}
       </React.Fragment>
     );
   }

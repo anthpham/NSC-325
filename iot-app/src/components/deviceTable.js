@@ -12,64 +12,41 @@ import * as deviceNames from "../../data/device-names.json";
 import * as deviceList from "../../data/device-list.json";
 import check from "./check.jpeg";
 
+var request = require('request');
+const EDIT_NAME_PATH = "http://localhost:5000/updatename";
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
 
-function createData(name, status, calories, fat, carbs, protein) {
-  return { name, status, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData(
-    "Alexa",
-    "Secure",
-    "Echo",
-    "Linux Debian",
-    "192.168.0.100",
-    "Amazon"
-  ),
-  createData(
-    "Living Room Lamp",
-    "Secure",
-    "Phillips Hue",
-    "Ubuntu",
-    "192.168.0.103",
-    "Phillips"
-  ),
-  createData(
-    "Coffee Maker",
-    "Secure",
-    "Smart Outlet",
-    "WemOS",
-    "192.168.0.104",
-    "Wemo"
-  ),
-  createData(
-    "Gameroom TV",
-    "Secure",
-    "Roku",
-    "Cali Linux",
-    "192.168.0.108",
-    "TLC"
-  ),
-  createData(
-    "Kitchen Cast",
-    "Secure",
-    "Chromecast",
-    "Android 5.2",
-    "192.168.0.101",
-    "Google"
-  ),
-];
-
-export default function DeviceTable() {
+export default function DeviceTable(props) {
   const classes = useStyles();
-  // console.log("here2");
-  // console.log(deviceList);
+  
+  const updateName = (newName, macToUpdate) => {
+    let nameObj = new Object()
+    nameObj.name = newName;
+    nameObj.mac = macToUpdate;
+    var options = {
+      uri: EDIT_NAME_PATH,
+      body: nameObj,
+      method: 'POST',
+      headers: {
+          'Accept': "*/*",
+          'Content-Type': 'application/json'
+      },
+      json: true
+    }
+    request(options, function (error, response) {
+        console.log(error,response);
+        return;
+    });
+  }
 
+  let names = props.names;
+  let devs = props.devices;
+  let macs = Object.keys(devs);
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
@@ -89,22 +66,25 @@ export default function DeviceTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {macs.map((mac) => (
+              <TableRow key={mac}>
                 <TableCell component="th" scope="row">
                   <TextField
                     style={{ width: "300px" }}
                     id="outlined-required"
-                    defaultValue={row.name}
+                    defaultValue={names[mac]}
+                    onChange={(e) => {
+                      updateName(e.target.value, mac);
+                    }}
                   />
                 </TableCell>
                 <TableCell align="left">
                   <img src={check} style={{ width: "30px" }} />
                 </TableCell>
-                <TableCell align="left">{row.calories}</TableCell>
-                <TableCell align="left">{row.fat}</TableCell>
-                <TableCell align="left">{row.carbs}</TableCell>
-                <TableCell align="left">{row.protein}</TableCell>
+                <TableCell align="left">{devs[mac].product}</TableCell>
+                <TableCell align="left">{devs[mac].ostype}</TableCell>
+                <TableCell align="left">{devs[mac].ip}</TableCell>
+                <TableCell align="left">{devs[mac].vendor}</TableCell>
                 <TableCell align="left">
                   {
                     <span
