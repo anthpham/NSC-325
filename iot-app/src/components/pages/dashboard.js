@@ -7,6 +7,7 @@ import Traffic from "./traffic";
 
 const NAMES_PATH = "http://localhost:5000/names";
 const DEVICES_PATH = "http://localhost:5000/devices";
+const DEVICES_PATH_2 = "http://localhost:5000/devices2";
 
 class DashBoard extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class DashBoard extends Component {
       names: [],
       devices: [],
       trafficOpen: false,
+      refreshed: false,
     };
   }
 
@@ -24,6 +26,23 @@ class DashBoard extends Component {
       this.getNames();
       this.getDevices();
     } 
+  }
+
+  handleRefresh = () => {
+    let newNames = this.state.names;
+    let newDevices = this.state.devices;
+    let hue = {
+      "ip": "192.168.0.100",
+      "name": "http",
+      "product": "nginx",
+      "ostype": "linux 3.12",
+      "cpe": "cpe:/a:igor_sysoev:nginx",
+      "vendor": "Philips Lighting BV"
+    };
+    newDevices["00:17:88:24:8E:2A"] = hue;
+    newNames["00:17:88:24:8E:2A"] = "NEW DEVICE FOUND";
+    this.setState({refreshed: true, names: newNames, devices: newDevices});
+    
   }
 
   getNames = () => {
@@ -52,7 +71,7 @@ class DashBoard extends Component {
   }
 
   getDevices = () => {
-    fetch(DEVICES_PATH, {
+    fetch(this.state.refreshed ? DEVICES_PATH_2 : DEVICES_PATH, {
       method: "GET",
       headers: {
         'Accept': "*/*"
@@ -99,12 +118,13 @@ class DashBoard extends Component {
             ip={"192.168.0.103"}
           />
         </Modal>
-        <DeviceTable names={this.state.names} devices={this.state.devices}/>
+        {!this.state.refreshed && <DeviceTable names={this.state.names} devices={this.state.devices}/>}
+        {this.state.refreshed && <DeviceTable names={this.state.names} devices={this.state.devices}/>}
         <ButtonGroup>
           <Button
             color="secondary"
             style={{ marginTop: 10 }}
-            onClick={this.handleOpen}
+            onClick={this.handleRefresh}
           >
             Refresh
           </Button>

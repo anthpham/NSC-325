@@ -8,9 +8,10 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-const NEW_DEVICE_NAMES = './../data/new-device-names.json';
 const DEVICE_NAMES = './../data/device-names.json';
 const DEVICE_LIST = './../data/sample-data.json';
+const DEVICE_LIST_2 = './../data/sample-data-2.json';
+
 
 app.use(cors());
 app.get("/names", (req, res) => {
@@ -23,8 +24,19 @@ app.get("/names", (req, res) => {
     }
   });
 });
+app.use(cors());
 app.get("/devices", (req, res) => {
   fs.readFile(DEVICE_LIST, 'utf8', (err, deviceData) => {
+    if (err) {
+        console.log(`Error reading file from disk: ${err}`);
+    } else {
+        const devices = JSON.parse(deviceData);
+        res.send(devices);
+    }
+  });
+});
+app.get("/devices2", (req, res) => {
+  fs.readFile(DEVICE_LIST_2, 'utf8', (err, deviceData) => {
     if (err) {
         console.log(`Error reading file from disk: ${err}`);
     } else {

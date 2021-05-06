@@ -30,5 +30,13 @@
       "ostype": "android",
       "cpe": "",
       "vendor": "Belkin International"
+    }, 
+    "00:17:88:24:8E:2A": {
+      "ip": "192.168.0.100",
+      "name": "http",
+      "product": "nginx",
+      "ostype": "linux 3.12",
+      "cpe": "cpe:/a:igor_sysoev:nginx",
+      "vendor": "Philips Lighting BV"
     }
   }

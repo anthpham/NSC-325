@@ -11,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import * as deviceNames from "../../data/device-names.json";
 import * as deviceList from "../../data/device-list.json";
 import check from "./check.jpeg";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 var request = require('request');
 const EDIT_NAME_PATH = "http://localhost:5000/updatename";
@@ -25,23 +26,23 @@ export default function DeviceTable(props) {
   const classes = useStyles();
   
   const updateName = (newName, macToUpdate) => {
-    let nameObj = new Object()
-    nameObj.name = newName;
-    nameObj.mac = macToUpdate;
-    var options = {
-      uri: EDIT_NAME_PATH,
-      body: nameObj,
-      method: 'POST',
-      headers: {
-          'Accept': "*/*",
-          'Content-Type': 'application/json'
-      },
-      json: true
-    }
-    request(options, function (error, response) {
-        console.log(error,response);
-        return;
-    });
+    // let nameObj = new Object()
+    // nameObj.name = newName;
+    // nameObj.mac = macToUpdate;
+    // var options = {
+    //   uri: EDIT_NAME_PATH,
+    //   body: nameObj,
+    //   method: 'POST',
+    //   headers: {
+    //       'Accept': "*/*",
+    //       'Content-Type': 'application/json'
+    //   },
+    //   json: true
+    // }
+    // request(options, function (error, response) {
+    //     console.log(error,response);
+    //     return;
+    // });
   }
 
   let names = props.names;
@@ -78,9 +79,10 @@ export default function DeviceTable(props) {
                     }}
                   />
                 </TableCell>
-                <TableCell align="left">
+                {mac !== "00:17:88:24:8E:2A" && <TableCell align="left">
                   <img src={check} style={{ width: "30px" }} />
-                </TableCell>
+                </TableCell>}
+                {mac === "00:17:88:24:8E:2A" && <div style={{position: "absolute", paddingTop: "5px", paddingBottom: "5px", leftMargin: "-5px"}} ><CircularProgress /></div>}
                 <TableCell align="left">{devs[mac].product}</TableCell>
                 <TableCell align="left">{devs[mac].ostype}</TableCell>
                 <TableCell align="left">{devs[mac].ip}</TableCell>
